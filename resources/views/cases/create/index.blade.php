@@ -74,6 +74,8 @@
             <div class="sub-title" style="margin-bottom: 40px;">
                 <h2>
                     {{  request()->segment(2) == 'create' ? 'Add New Case' : 'Edit Case'  }} / CASE ID {{ Helper::generateCaseNumber() }}
+                    <div id="saving-container" style="float:right;">                        
+                    </div>
                 </h2>
             </div>
 

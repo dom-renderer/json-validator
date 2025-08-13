@@ -146,6 +146,8 @@ class CaseController extends Controller
             return response()->json($submission, 422);
         }
 
+        $submission['timestamp'] = now()->format('H:i:s');
+
         return response()->json($submission);
     }
 

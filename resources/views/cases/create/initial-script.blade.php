@@ -9,25 +9,36 @@
         switch (status) {
             case 'saving':
                 container.html(`
-            <div class="saving-indicator">
-                <div class="saving-spinner"></div>
-                <span class="saving-text">Saving...</span>
+            <div class="state-item">
+                <div class="save-indicator saving">
+                    <div class="spinner"></div>
+                    <span>Saving...</span>
+                </div>
             </div>
         `);
                 break;
             case 'saved':
                 container.html(`
-            <div class="saved-indicator">
-                <i class="fas fa-check-circle text-success"></i>
-                <span class="saved-text">All changes saved at ${message}</span>
+            <div class="state-item">
+                <div class="save-indicator saved">
+                    <svg class="checkmark" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                    </svg>
+                    <span>All changes saved at ${message}</span>
+                </div>
             </div>
         `);
                 break;
             case 'error':
                 container.html(`
-            <div class="error-indicator">
-                <i class="fas fa-exclamation-circle text-danger"></i>
-                <span class="error-text">Error saving changes</span>
+            <div class="state-item">
+                <div class="save-indicator error">
+                    <svg class="error-icon" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.58L19 8l-9 9z"/>
+                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" fill="#d93025"/>
+                    </svg>
+                    <span>Unable to save</span>
+                </div>
             </div>
         `);
                 break;

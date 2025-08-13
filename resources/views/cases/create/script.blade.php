@@ -13,7 +13,12 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
+            beforeSend: function () {
+                showSavingStatus('saving');
+            },
             success: function(response) {
+                showSavingStatus('saved', response.timestamp || (new Date().toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' })));
+
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
@@ -42,6 +47,7 @@
                 });
             },
             error: function(xhr) {
+                showSavingStatus('error');
                 if (xhr.status === 422) {
                     let errors = xhr.responseJSON.errors;
                     let errorList = '';

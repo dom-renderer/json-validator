@@ -96,7 +96,11 @@
 
 
 
-
+label.error {
+	color: #dc3545;
+	font-size: 15px;
+	margin-top: 5px;
+}
 
 
 
@@ -269,4 +273,108 @@ div.iti--inline-dropdown {
     width: 100%!important;
 }
 
+</style>
+
+
+
+<style>
+	/* Spinner for save */
+
+	.save-indicator {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 8px 16px;
+		border-radius: 20px;
+		font-size: 13px;
+		font-weight: 400;
+		transition: all 0.3s ease;
+		min-width: 120px;
+		justify-content: center;
+		position: relative;
+		overflow: hidden;
+	}
+
+	/* Saving State */
+	.save-indicator.saving {
+		background-color: #fff;
+		color: #5f6368;
+		border: 1px solid #dadce0;
+	}
+
+	.save-indicator.saving::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(90deg, transparent, rgba(66, 133, 244, 0.1), transparent);
+		animation: shimmer 1.5s infinite;
+	}
+
+	/* Saved State */
+	.save-indicator.saved {
+		background-color: #e8f5e8;
+		color: #137333;
+		border: 1px solid #c6e5c6;
+	}
+
+	/* Error State */
+	.save-indicator.error {
+		background-color: #fce8e6;
+		color: #d93025;
+		border: 1px solid #f9ab9f;
+	}
+
+	/* Spinner Animation */
+	.spinner {
+		width: 16px;
+		height: 16px;
+		border: 2px solid #e8eaed;
+		border-top: 2px solid #4285f4;
+		border-radius: 50%;
+		animation: spin 1s linear infinite;
+	}
+
+	.checkmark {
+		width: 16px;
+		height: 16px;
+		fill: #137333;
+	}
+
+	.error-icon {
+		width: 16px;
+		height: 16px;
+		fill: #d93025;
+	}
+
+	/* Animations */
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+
+	@keyframes shimmer {
+		0% { left: -100%; }
+		100% { left: 100%; }
+	}
+
+	@keyframes fadeIn {
+		0% { opacity: 0; transform: translateY(-5px); }
+		100% { opacity: 1; transform: translateY(0); }
+	}
+
+	@keyframes pulse {
+		0%, 100% { transform: scale(1); }
+		50% { transform: scale(1.05); }
+	}
+
+	.save-indicator.saved {
+		animation: fadeIn 0.3s ease, pulse 0.6s ease 0.3s;
+	}
+
+	.save-indicator.error {
+		animation: fadeIn 0.3s ease;
+	}	
 </style>
