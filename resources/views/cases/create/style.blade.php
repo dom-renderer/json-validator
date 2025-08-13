@@ -259,4 +259,14 @@ li {
 	list-style: none!important;
 }
 
+#form-section-a-2 input, #form-section-a-2 textarea {
+	width: 90%!important;
+}
+
+div.iti--inline-dropdown {
+	margin-top: 13px!important;
+    left: 2px!important;
+    width: 100%!important;
+}
+
 </style>

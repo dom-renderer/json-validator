@@ -1,7 +1,7 @@
 @extends('layouts.app', ['title' => $title, 'subTitle' => $subTitle, 'select2' => true])
 
 @section('content')
-    <div class="row mt-5">
+    <div class="row" style="margin-top: 80px;">
         <div class="col-md-3">
 
             <ul class="policy-dropdown-menu policy-dropdown-submenu" style="display: block;">
@@ -70,6 +70,13 @@
         </div>
 
         <div class="col-9 new-case">
+
+            <div class="sub-title" style="margin-bottom: 40px;">
+                <h2>
+                    {{  request()->segment(2) == 'create' ? 'Add New Case' : 'Edit Case'  }} / CASE ID {{ Helper::generateCaseNumber() }}
+                </h2>
+            </div>
+
             <div class="new-case-main" style="padding-left: 0px!important;">
             <div class="case-section" id="section-a-1">
                 @php

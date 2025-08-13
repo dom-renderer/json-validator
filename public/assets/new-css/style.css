@@ -151,25 +151,25 @@ input::-webkit-inner-spin-button {
 	color: var(--red);
 }
 
-.red-btn {
-	padding: 11px 32px;
-	background: var(--red);
-	border: 1px solid transparent;
-	border-radius: 6px;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	-ms-border-radius: 6px;
-	-o-border-radius: 6px;
-	transition: 0.3s;
-	-webkit-transition: 0.3s;
-	-moz-transition: 0.3s;
-	-ms-transition: 0.3s;
-	-o-transition: 0.3s;
+.red-btn, .btn-primary {
+	padding: 11px 32px!important;
+	background: var(--red)!important;
+	border: 1px solid transparent!important;
+	border-radius: 6px!important;
+	-webkit-border-radius: 6px!important;
+	-moz-border-radius: 6px!important;
+	-ms-border-radius: 6px!important;
+	-o-border-radius: 6px!important;
+	transition: 0.3s!important;
+	-webkit-transition: 0.3s!important;
+	-moz-transition: 0.3s!important;
+	-ms-transition: 0.3s!important;
+	-o-transition: 0.3s!important;
 }
 
-.red-btn:hover {
-	border: 1px solid var(--red);
-	background: var(--white);
+.red-btn:hover, .btn-primary:hover {
+	border: 1px solid var(--red)!important;
+	background: var(--white)!important;
 }
 
 /* buttons */

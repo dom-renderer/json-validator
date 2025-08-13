@@ -1,7 +1,6 @@
 <form id="form-section-a-2">
-<div class="mt-4">
-    <table class="table table-bordered align-middle">
-        <thead class="table-light">
+    <table class="table">
+        <thead>
             <tr>
                 <th>Role</th>
                 <th>Name</th>
@@ -54,10 +53,8 @@
             </tr>
         </tbody>
     </table>
-</div>
 
 <div class="mb-3 float-end">
-    {{-- <button type="submit" data-type="draft" class="btn btn-primary save-draft">Save Draft</button> --}}
     <button type="submit" data-type="next" data-next="section-b-1" class="btn btn-primary save-next">Save & Next</button>
 </div>
 </form>

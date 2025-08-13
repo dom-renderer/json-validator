@@ -23,18 +23,19 @@
                 }).finally(() => {
                     if ('type' in response && response.type == 'save' && 'next_section' in response && response.next_section != '') {
                         var nextSection = $(submitButton).data('next');
+                        var currentSection = section;
 
-                        if (!nextSection) return;
+                        if (!nextSection && !currentSection) return;
 
-                        $('.case-section').removeClass('active');
-                        $('#' + nextSection).addClass('active');
+                        $('.policy-dropdown-item[data-section="' + currentSection + '"]').removeClass('active');
+                        $('.policy-dropdown-item[data-section="' + currentSection + '"]').parent().parent().css('display', 'none');
 
-                        $('.case-submenu-item').removeClass('active');
-                        $('.case-submenu-item[data-section="' + nextSection + '"]').addClass('active');
+                        $('.policy-dropdown-item[data-section="' + nextSection + '"]').addClass('active');
+                        $('.policy-dropdown-item[data-section="' + nextSection + '"]').parent().parent().css('display', 'block');
 
-                        var $parentSidebarItem = $('.case-submenu-item[data-section="' + nextSection + '"]').closest('.case-sidebar-item');
-                        $('.case-sidebar-item').removeClass('active').find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-                        $parentSidebarItem.addClass('active').find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                        $(`#${currentSection}`).addClass('d-none');
+                        $(`#${nextSection}`).removeClass('d-none');                        
+                        
                     } else if ('type' in response && response.type == 'draft') {
                         window.location.href = "{{ route('cases.index') }}";
                     }
