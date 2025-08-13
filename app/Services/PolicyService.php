@@ -1509,28 +1509,16 @@ class PolicyService {
                     return $response;
                 case self::$sections[17]:
 
-                    if (PolicyCommunication::where('policy_id', $policy->id)->exists()) {
-                        PolicyCommunication::where('policy_id', $policy->id)->update([
-                            'type' => $request['data']['type'] ?? '',
-                            'date' => date('Y-m-d H:i:s', strtotime($request['data']['date'] ?? '')),
-                            'contact_person_involved' => $request['data']['contact_person'] ?? '',
-                            'summary_of_discussion' => $request['data']['discussion'] ?? '',
-                            'action_taken_or_next_step' => $request['data']['action_taken'] ?? '',
-                            'internal_owners' => $request['data']['internal_owners'] ?? '',
-                            'updated_by' => $currentLoggedInUser
-                        ]);
-                    } else {
-                        PolicyCommunication::create([
-                            'policy_id' => $policy->id,
-                            'type' => $request['data']['type'] ?? '',
-                            'date' => date('Y-m-d H:i:s', strtotime($request['data']['date'] ?? '')),
-                            'contact_person_involved' => $request['data']['contact_person'] ?? '',
-                            'summary_of_discussion' => $request['data']['discussion'] ?? '',
-                            'action_taken_or_next_step' => $request['data']['action_taken'] ?? '',
-                            'internal_owners' => $request['data']['internal_owners'] ?? '',
-                            'added_by' => $currentLoggedInUser
-                        ]);
-                    }
+                    PolicyCommunication::create([
+                        'policy_id' => $policy->id,
+                        'type' => $request['data']['type'] ?? '',
+                        'date' => date('Y-m-d H:i:s', strtotime($request['data']['date'] ?? '')),
+                        'contact_person_involved' => $request['data']['contact_person'] ?? '',
+                        'summary_of_discussion' => $request['data']['discussion'] ?? '',
+                        'action_taken_or_next_step' => $request['data']['action_taken'] ?? '',
+                        'internal_owners' => $request['data']['internal_owners'] ?? '',
+                        'added_by' => $currentLoggedInUser
+                    ]);
 
                     if ($savingType == 'draft') {
                         $policy->silent_save = 0;
@@ -1540,27 +1528,22 @@ class PolicyService {
                         session()->forget('new_policy');
                     }
 
-                    $response['next_section'] = self::$sections[18];
+                    if ($request->save == 'save-and-add') {
+                        $response['type'] = 'save-and-add';
+                        $response['next_section'] = self::$sections[17];
+                    } else {
+                        $response['next_section'] = self::$sections[18];
+                    }
                     return $response;
                 case self::$sections[18]:
 
-                    if (PolicyCaseFileNote::where('policy_id', $policy->id)->exists()) {
-                        PolicyCaseFileNote::where('policy_id', $policy->id)->update([
-                            'policy_id' => $policy->id,
-                            'date' => date('Y-m-d H:i:s', strtotime($request['data']['noted_at'] ?? '')),
-                            'noted_by' => $request['data']['noted_by'] ?? '',
-                            'notes' => $request['data']['note'] ?? '',
-                            'updated_by' => $currentLoggedInUser
-                        ]);
-                    } else {
-                        PolicyCaseFileNote::create([
-                            'policy_id' => $policy->id,
-                            'date' => date('Y-m-d H:i:s', strtotime($request['data']['noted_at'] ?? '')),
-                            'noted_by' => $request['data']['noted_by'] ?? '',
-                            'notes' => $request['data']['note'] ?? '',
-                            'added_by' => $currentLoggedInUser
-                        ]);
-                    }
+                    PolicyCaseFileNote::create([
+                        'policy_id' => $policy->id,
+                        'date' => date('Y-m-d H:i:s', strtotime($request['data']['noted_at'] ?? '')),
+                        'noted_by' => $request['data']['noted_by'] ?? '',
+                        'notes' => $request['data']['note'] ?? '',
+                        'added_by' => $currentLoggedInUser
+                    ]);
 
                     if ($savingType == 'draft') {
                         $policy->silent_save = 0;
@@ -1570,7 +1553,12 @@ class PolicyService {
                         session()->forget('new_policy');
                     }
 
-                    $response['next_section'] = null;
+                    if ($request->save == 'save-and-add') {
+                        $response['type'] = 'save-and-add';
+                        $response['next_section'] = self::$sections[18];
+                    } else {
+                        $response['next_section'] = null;
+                    }
                     return $response;
                 default:
                 }

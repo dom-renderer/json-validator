@@ -255,7 +255,317 @@
 
     /**
      * Handle form submission for section B-1
-     **/     
+     **/    
+    
+    /**
+     * Handle form submission for section G-1
+     **/
+
+     $('#form-section-g-1').validate({
+            rules: {
+                date: {
+                    required: true
+                },
+                type: {
+                    required: true
+                },
+                contact_person: {
+                    required: true
+                },
+                discussion: {
+                    required: true
+                },
+                action_taken: {
+                    required: true
+                },
+                internal_owners: {
+                    required: true
+                }
+            },
+            messages: {
+                date: {
+                    required: "Please select communication date"
+                },
+                type: {
+                    required: "Please enter communication type"
+                },
+                contact_person: {
+                    required: "Please enter contact person(s) involved"
+                },
+                discussion: {
+                    required: "Please enter summary of discussion"
+                },
+                action_taken: {
+                    required: "Please enter action taken or next steps"
+                },
+                internal_owners: {
+                    required: "Please enter internal owner(s)"
+                }
+            },
+            submitHandler: function(form, event) {
+                event.preventDefault();
+
+                let formData = $(form).serializeArray().reduce((acc, item) => {
+                    acc[item.name] = item.value;
+                    return acc;
+                }, {});
+                
+                let actionType = event.originalEvent.submitter;
+                
+                $.ajax({
+                    url: "{{ route('case.submission') }}",
+                    method: 'POST',
+                    data: {
+                        policy: currentCaseId,
+                        section: 'section-g-1',
+                        data: formData,
+                        save: $(actionType).data('type')
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    beforeSend: function () {
+                        showSavingStatus('saving');
+                    },
+                    success: function(response) {
+                        showSavingStatus('saved', response.timestamp || (new Date().toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' })));
+
+                        if (response.type === 'save-and-add') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Communication entry saved successfully. You can now add another entry.',
+                                allowOutsideClick: true, 
+                                allowEscapeKey: true
+                            }).then(() => {
+                                $('#form-section-g-1')[0].reset();
+                                refreshCommunicationAccordion();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: response.message || 'Saved successfully.',
+                                allowOutsideClick: true, 
+                                allowEscapeKey: true
+                            }).finally(() => {
+                                if ('type' in response && response.type == 'save' && 'next_section' in response && response.next_section != '') {
+                                    var nextSection = $(actionType).data('next');
+                                    var currentSection = 'section-g-1';
+
+                                    if (!nextSection && !currentSection) return;
+
+                                    $('.policy-dropdown-item[data-section="' + currentSection + '"]').removeClass('active');
+                                    $('.policy-dropdown-item[data-section="' + currentSection + '"]').parent().parent().css('display', 'none');
+
+                                    $('.policy-dropdown-item[data-section="' + nextSection + '"]').addClass('active');
+                                    $('.policy-dropdown-item[data-section="' + nextSection + '"]').parent().parent().css('display', 'block');
+
+                                    $(`#${currentSection}`).addClass('d-none');
+                                    $(`#${nextSection}`).removeClass('d-none');                        
+                                    
+                                } else if ('type' in response && response.type == 'draft') {
+                                    window.location.href = "{{ route('cases.index') }}";
+                                }
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        showSavingStatus('error');
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            let errorList = '';
+
+                            $.each(errors, function(key, messages) {
+                                messages.forEach(function(message) {
+                                    errorList += `<li>${message}</li>`;
+                                });
+                            });
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Validation Errors',
+                                html: `<ul style="text-align: left;">${errorList}</ul>`
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Something went wrong. Please try again.'
+                            });
+                        }
+                    }
+                });
+            }
+        });        
+
+        function refreshCommunicationAccordion() {
+            $.ajax({
+                url: "{{ route('case.get-communications') }}",
+                method: 'GET',
+                data: {
+                    policy: currentCaseId
+                },
+                success: function(response) {
+                    if (response.html) {
+                        $('#communication-entries-container').html(response.html);
+                    }
+                },
+                error: function() {
+                    console.log('Failed to refresh communication accordion');
+                }
+            });
+        }
+
+        function refreshCaseFileNotesAccordion() {
+            $.ajax({
+                url: "{{ route('case.get-case-file-notes') }}",
+                method: 'GET',
+                data: {
+                    policy: currentCaseId
+                },
+                success: function(response) {
+                    if (response.html) {
+                        $('#case-file-notes-container').html(response.html);
+                    }
+                },
+                error: function() {
+                    console.log('Failed to refresh case file notes accordion');
+                }
+            });
+        }
+
+    /**
+     * Handle form submission for section G-1
+     **/
+
+    /**
+     * Handle form submission for section G-2
+     **/
+
+     $('#form-section-g-2').validate({
+            rules: {
+                noted_at: {
+                    required: true
+                },
+                noted_by: {
+                    required: true
+                },
+                note: {
+                    required: true
+                }
+            },
+            messages: {
+                noted_at: {
+                    required: "Please select date of note"
+                },
+                noted_by: {
+                    required: "Please enter who the note is by"
+                },
+                note: {
+                    required: "Please enter the note content"
+                }
+            },
+            submitHandler: function(form, event) {
+                event.preventDefault();
+
+                let formData = $(form).serializeArray().reduce((acc, item) => {
+                    acc[item.name] = item.value;
+                    return acc;
+                }, {});
+                
+                let actionType = event.originalEvent.submitter;
+                
+                $.ajax({
+                    url: "{{ route('case.submission') }}",
+                    method: 'POST',
+                    data: {
+                        policy: currentCaseId,
+                        section: 'section-g-2',
+                        data: formData,
+                        save: $(actionType).data('type')
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    beforeSend: function () {
+                        showSavingStatus('saving');
+                    },
+                    success: function(response) {
+                        showSavingStatus('saved', response.timestamp || (new Date().toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' })));
+
+                        if (response.type === 'save-and-add') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Case file note saved successfully. You can now add another note.',
+                                allowOutsideClick: true, 
+                                allowEscapeKey: true
+                            }).then(() => {
+                                $('#form-section-g-2')[0].reset();
+                                refreshCaseFileNotesAccordion();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: response.message || 'Saved successfully.',
+                                allowOutsideClick: true, 
+                                allowEscapeKey: true
+                            }).finally(() => {
+                                if ('type' in response && response.type == 'save' && 'next_section' in response && response.next_section != '') {
+                                    var nextSection = $(actionType).data('next');
+                                    var currentSection = 'section-g-2';
+
+                                    if (!nextSection && !currentSection) return;
+
+                                    $('.policy-dropdown-item[data-section="' + currentSection + '"]').removeClass('active');
+                                    $('.policy-dropdown-item[data-section="' + currentSection + '"]').parent().parent().css('display', 'none');
+
+                                    $('.policy-dropdown-item[data-section="' + nextSection + '"]').addClass('active');
+                                    $('.policy-dropdown-item[data-section="' + nextSection + '"]').parent().parent().css('display', 'block');
+
+                                    $(`#${currentSection}`).addClass('d-none');
+                                    $(`#${nextSection}`).removeClass('d-none');                        
+                                    
+                                } else if ('type' in response && response.type == 'draft') {
+                                    window.location.href = "{{ route('cases.index') }}";
+                                }
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        showSavingStatus('error');
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            let errorList = '';
+
+                            $.each(errors, function(key, messages) {
+                                messages.forEach(function(message) {
+                                    errorList += `<li>${message}</li>`;
+                                });
+                            });
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Validation Errors',
+                                html: `<ul style="text-align: left;">${errorList}</ul>`
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Something went wrong. Please try again.'
+                            });
+                        }
+                    }
+                });
+            }
+        });        
+
+    /**
+     * Handle form submission for section G-2
+     **/
     
 
 </script>

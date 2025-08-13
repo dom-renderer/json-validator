@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\PolicyDocument;
+use App\Models\PolicyCommunication;
+use App\Models\PolicyCaseFileNote;
 use Illuminate\Http\Request;
 use App\Models\Policy;
 
@@ -234,6 +236,112 @@ class CaseController extends Controller
             'status' => 'success',
             'url' => asset('storage/' . $path),
             'check' => $shouldCheck
+        ]);
+    }
+
+    public function getCommunications(Request $request) {
+        $request->validate([
+            'policy' => 'required|integer'
+        ]);
+
+        $g1Data = PolicyCommunication::where('policy_id', $request->policy)->get();
+        
+        $html = '';
+        if($g1Data && $g1Data->count() > 0) {
+            $html .= '<div class="mb-4">
+                <h5>Previous Communication Entries</h5>
+                <div class="accordion" id="communicationAccordion">';
+            
+            foreach($g1Data as $index => $communication) {
+                $html .= '<div class="accordion-item">
+                    <h2 class="accordion-header" id="heading'.$index.'">
+                        <button class="accordion-button '.($index > 0 ? 'collapsed' : '').'" type="button" data-bs-toggle="collapse" data-bs-target="#collapse'.$index.'" aria-expanded="'.($index == 0 ? 'true' : 'false').'" aria-controls="collapse'.$index.'">
+                            '.($communication->type ?: 'Communication').' - '.($communication->date ? \Carbon\Carbon::parse($communication->date)->format('M d, Y') : 'No Date').'
+                        </button>
+                    </h2>
+                    <div id="collapse'.$index.'" class="accordion-collapse collapse '.($index == 0 ? 'show' : '').'" aria-labelledby="heading'.$index.'" data-bs-parent="#communicationAccordion">
+                        <div class="accordion-body">
+                            <div class="row mb-2">
+                                <div class="col-sm-3"><strong>Communication Date:</strong></div>
+                                <div class="col-sm-9">'.($communication->date ? \Carbon\Carbon::parse($communication->date)->format('M d, Y H:i') : 'N/A').'</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-3"><strong>Communication Type:</strong></div>
+                                <div class="col-sm-9">'.($communication->type ?: 'N/A').'</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-3"><strong>Contact Person(s):</strong></div>
+                                <div class="col-sm-9">'.($communication->contact_person_involved ?: 'N/A').'</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-3"><strong>Summary of Discussion:</strong></div>
+                                <div class="col-sm-9">'.($communication->summary_of_discussion ?: 'N/A').'</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-3"><strong>Action Taken/Next Steps:</strong></div>
+                                <div class="col-sm-9">'.($communication->action_taken_or_next_step ?: 'N/A').'</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-3"><strong>Internal Owner(s):</strong></div>
+                                <div class="col-sm-9">'.($communication->internal_owners ?: 'N/A').'</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+            }
+            
+            $html .= '</div></div>';
+        }
+
+        return response()->json([
+            'html' => $html
+        ]);
+    }
+
+    public function getCaseFileNotes(Request $request) {
+        $request->validate([
+            'policy' => 'required|integer'
+        ]);
+
+        $g2Data = PolicyCaseFileNote::where('policy_id', $request->policy)->get();
+        
+        $html = '';
+        if($g2Data && $g2Data->count() > 0) {
+            $html .= '<div class="mb-4">
+                <h5>Previous Case File Notes</h5>
+                <div class="accordion" id="caseFileNotesAccordion">';
+            
+            foreach($g2Data as $index => $note) {
+                $html .= '<div class="accordion-item">
+                    <h2 class="accordion-header" id="heading'.$index.'">
+                        <button class="accordion-button '.($index > 0 ? 'collapsed' : '').'" type="button" data-bs-toggle="collapse" data-bs-target="#collapse'.$index.'" aria-expanded="'.($index == 0 ? 'true' : 'false').'" aria-controls="collapse'.$index.'">
+                            '.($note->noted_by ?: 'Note').' - '.($note->date ? \Carbon\Carbon::parse($note->date)->format('M d, Y') : 'No Date').'
+                        </button>
+                    </h2>
+                    <div id="collapse'.$index.'" class="accordion-collapse collapse '.($index == 0 ? 'show' : '').'" aria-labelledby="heading'.$index.'" data-bs-parent="#caseFileNotesAccordion">
+                        <div class="accordion-body">
+                            <div class="row mb-2">
+                                <div class="col-sm-3"><strong>Date of Note:</strong></div>
+                                <div class="col-sm-9">'.($note->date ? \Carbon\Carbon::parse($note->date)->format('M d, Y H:i') : 'N/A').'</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-3"><strong>Note By:</strong></div>
+                                <div class="col-sm-9">'.($note->noted_by ?: 'N/A').'</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-3"><strong>Note(s):</strong></div>
+                                <div class="col-sm-9">'.($note->notes ?: 'N/A').'</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+            }
+            
+            $html .= '</div></div>';
+        }
+
+        return response()->json([
+            'html' => $html
         ]);
     }
 }

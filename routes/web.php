@@ -31,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('cases/submission', [\App\Http\Controllers\CaseController::class, 'submission'])->name('case.submission');
     Route::post('cases/auto-save', [\App\Http\Controllers\CaseController::class, 'autoSave'])->name('case.auto-save');
+    Route::get('cases/get-communications', [\App\Http\Controllers\CaseController::class, 'getCommunications'])->name('case.get-communications');
+    Route::get('cases/get-case-file-notes', [\App\Http\Controllers\CaseController::class, 'getCaseFileNotes'])->name('case.get-case-file-notes');
 
     Route::post('upload-document', [\App\Http\Controllers\CaseController::class, 'uploadDoc'])->name('upload-document');
 });
