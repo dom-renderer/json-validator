@@ -154,7 +154,11 @@
                 ])
             </div>
             <div class="case-section d-none" id="section-b-1">
-                @include('cases.create.section-b-1')
+                @php
+                    $polhol = \App\Models\PolicyHolder::with('holder')->where('policy_id', $policy->id)->first()->toArray() ?? [];
+                @endphp
+
+                @include('cases.create.section-b-1', ['polhol', 'polhol'])
             </div>
             <div class="case-section d-none" id="section-b-2">
                 @include('cases.create.section-b-2')

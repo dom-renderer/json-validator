@@ -296,10 +296,10 @@ class PolicyService {
                     return $response;
                 case self::$sections[2]:
 
-                    if ($request->policy_holder_id != null) {
-                        if (is_numeric($request->policy_holder_id) && $request->policy_holder_id > 0) {
+                    if (isset($request['data']['policy_holder_id'])) {
+                        if (is_numeric($request['data']['policy_holder_id']) && $request['data']['policy_holder_id'] > 0) {
 
-                            $customer = Customer::find($request->policy_holder_id);
+                            $customer = Customer::find($request['data']['policy_holder_id']);
 
                             if ($customer) {
 
@@ -338,7 +338,7 @@ class PolicyService {
                                 }
                             }
                             
-                        } else if ($request->policy_holder_id == 'ADD_NEW_USER' && $isAutoSave) {
+                        } else if ($request['data']['policy_holder_id'] == 'ADD_NEW_USER' && $isAutoSave) {
 
                                 $customer  = new Customer();
                                 $customer->type = $request['data']['type'] ?? 'entity';
