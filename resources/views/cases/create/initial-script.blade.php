@@ -510,6 +510,7 @@
         $('#policy_holder_id').select2({
             placeholder: 'Select Policy Holder',
             allowClear: true,
+            theme: 'classic',
             width: '100%',
             ajax: {
                 url: "{{ route('holder-list') }}",
@@ -533,7 +534,8 @@
                         results: $.map(data.items, function(item) {
                             return {
                                 id: item.id,
-                                text: item.text
+                                text: item.text,
+                                user: item.user
                             };
                         }),
                         pagination: {
@@ -553,99 +555,85 @@
                 return $result;
             }
         }).on('change', function() {
+            var selectedData = $('#policy_holder_id').select2('data');
+            if (selectedData.length > 0) {
+                var userData = selectedData[0].user;
+                var shouldEmpty = false;
+                
+                if (userData) {
+                    $('#stts-entity').attr('checked', userData.type === 'entity');
+                    $('#stts-individual').attr('checked', userData.type === 'individual');
 
-        });
+                    $('.section-b-1-policyholder-name').val(userData.name || '');
+                    $('.section-b-1-controlling-person').val(userData.name || '');
+                    $('.section-b-1-place-birth').val(userData.place_of_birth || '');
+                    $('.section-b-1-date-birth').val(userData.dob || '');
+                    $('.section-b-1-country').val(userData.country || '')
+                    $('.section-b-1-city').val(userData.city || '');
+                    $('.section-b-1-zip').val(userData.zipcode || '');
+                    $('.section-b-1-address').val(userData.address_line_1 || '');
 
-        $('.section-b-1-country').select2({
-            placeholder: 'Select Country',
-            allowClear: true,
-            width: '100%',
-            ajax: {
-                url: "{{ route('country-list') }}",
-                type: "POST",
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        searchQuery: params.term,
-                        page: params.page || 1,
-                        _token: "{{ csrf_token() }}"
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
+                    if (userData.status === 'other') {
+                        $('.section-b-1-other-status').val(userData.other_status || '');
+                        $('.section-b-1-other-status').removeClass('d-none');
+                    } else {
+                        $('.section-b-1-other-status').addClass('d-none');
+                        $('.section-b-1-other-status').val('');
+                        $(`#stts-${userData.status}`).attr('checked', true);
+                    }
 
-                    return {
-                        results: $.map(data.items, function(item) {
-                            return {
-                                id: item.id,
-                                text: item.text
-                            };
-                        }),
-                        pagination: {
-                            more: data.pagination.more
-                        }
-                    };
-                },
-                cache: true
-            },
-            templateResult: function(data) {
-                if (data.loading) {
-                    return data.text;
+                    $('#stts-male').attr('checked', userData.gender === 'male');
+                    $('#stts-female').attr('checked', userData.gender === 'female');    
+
+                    $('.section-b-1-nationality').val(userData.national_country_of_registration);
+                    $('.section-b-1-legal-residence').val(userData.country_of_legal_residence);
+                    $('.section-b-1-passport').val(userData.passport_number);
+                    $('.section-b-1-passport-issue-country').val(userData.country_of_issuance);
+                    $('.section-b-1-tin').val(userData.tin);
+                    $('.section-b-1-lei').val(userData.lei);
+                    $('.section-b-1-email').val(userData.email);
+                } else {
+                    shouldEmpty = true;
                 }
 
-                var $result = $('<span></span>');
-                $result.text(data.text);
-                return $result;
+            } else {
+                shouldEmpty = true;
             }
-        }).on('change', function() {
-            $('.section-b-1-city').val(null).trigger('change');
+
+            if (shouldEmpty) {
+                $('#stts-entity').prop('checked', true);
+
+                $('.section-b-1-policyholder-name').val('');
+                $('.section-b-1-controlling-person').val('');
+                $('.section-b-1-place-birth').val('');
+                $('.section-b-1-date-birth').val('');
+                $('.section-b-1-country').val('');
+                $('.section-b-1-city').val('');
+                $('.section-b-1-zip').val('');
+                $('.section-b-1-address').val('');
+
+                $(`#stts-single`).attr('checked', true);
+                $('.section-b-1-other-status').addClass('d-none').val('');
+
+                $('#stts-male').attr('checked', true);
+
+                $('.section-b-1-nationality').val(null);
+                $('.section-b-1-legal-residence').val(null);
+                $('.section-b-1-passport').val(null);
+                $('.section-b-1-passport-issue-country').val(null);
+                $('.section-b-1-tin').val(null);
+                $('.section-b-1-lei').val(null);
+                $('.section-b-1-email').val(null);
+            }
         });
 
-        $('.section-b-1-city').select2({
-            placeholder: 'Select City',
-            allowClear: true,
-            width: '100%',
-            ajax: {
-                url: "{{ route('city-list') }}",
-                type: "POST",
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        searchQuery: params.term,
-                        page: params.page || 1,
-                        _token: "{{ csrf_token() }}",
-                        country_id: function() {
-                            return $('.section-b-1-country option:selected').val();
-                        }
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-
-                    return {
-                        results: $.map(data.items, function(item) {
-                            return {
-                                id: item.id,
-                                text: item.text
-                            };
-                        }),
-                        pagination: {
-                            more: data.pagination.more
-                        }
-                    };
-                },
-                cache: true
-            },
-            templateResult: function(data) {
-                if (data.loading) {
-                    return data.text;
-                }
-
-                var $result = $('<span></span>');
-                $result.text(data.text);
-                return $result;
+        $('.section-b-1-status').on('change', function() {
+            console.log($(this).val());
+            
+            if ($(this).val() === 'other') {
+                $('.section-b-1-status-other').removeClass('d-none');
+            } else {
+                $('.section-b-1-status-other').addClass('d-none').val('');
             }
         });
 

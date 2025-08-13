@@ -29,6 +29,15 @@ return new class extends Migration
             $table->string('zipcode')->nullable();
             $table->enum('status', ['single', 'married', 'divorced', 'separated', 'corporation', 'llc', 'trust', 'partnership', 'foundation', 'other'])->default('corporation');
             $table->string('status_name')->nullable()->comment('Applicable in other status');
+            $table->string('national_country_of_registration')->nullable();
+            $table->string('country_of_legal_residence')->nullable();
+
+            $table->string('passport_number')->nullable();
+            $table->string('country_of_issuance')->nullable();
+            $table->string('tin')->nullable();
+            $table->string('lei')->nullable();
+                        
+            
             $table->unsignedBigInteger('added_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();

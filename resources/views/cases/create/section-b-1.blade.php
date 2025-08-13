@@ -13,7 +13,7 @@
                     <input class="form-check-input section-b-1-type" name="type" type="radio" value="entity" id="stts-entity" checked> <label for="stts-entity"> Entity </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-type" name="type" type="radio" value="individual" id="stts-individual" checked> <label for="stts-individual"> Individual </label>
+                    <input class="form-check-input section-b-1-type" name="type" type="radio" value="individual" id="stts-individual"> <label for="stts-individual"> Individual </label>
                 </div>
             </div>
         </div>
@@ -42,13 +42,13 @@
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Country: @requiredField </label>
             <div class="col-sm-9">
-                <select name="country" id="country" class="section-b-1-country" required></select>
+                <input type="text" name="country" id="country" class="form-control section-b-1-country" required>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-1 col-form-label">City: @requiredField </label>
             <div class="col-sm-5">
-                <select name="city" id="city" class="section-b-1-city"></select>
+                <input type="text" name="city" id="city" class="form-control section-b-1-city" required>
             </div>
             <label class="col-sm-3 col-form-label">Postcode/ ZIP: @requiredField </label>
             <div class="col-sm-3">
@@ -65,60 +65,63 @@
             <label class="col-sm-3 col-form-label">Status: @requiredField </label>
             <div class="col-sm-9">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="Single" id="stts-single" checked> <label for="stts-single"> Single </label>
+                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="single" id="stts-single" checked> <label for="stts-single"> Single </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="Married" id="stts-married"> <label for="stts-married"> Married </label>
+                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="married" id="stts-married"> <label for="stts-married"> Married </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="Divorced" id="stts-divorced"> <label for="stts-divorced"> Divorced </label>
+                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="divorced" id="stts-divorced"> <label for="stts-divorced"> Divorced </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="Separated" id="stts-separated"> <label for="stts-separated"> Separated </label>
+                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="separated" id="stts-separated"> <label for="stts-separated"> Separated </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="Corporation" id="stts-corp"> <label for="stts-corp"> Corporation </label>
+                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="corporation" id="stts-corp"> <label for="stts-corp"> Corporation </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="LLC" id="stts-llc"> <label for="stts-llc"> LLC </label>
+                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="llc" id="stts-llc"> <label for="stts-llc"> LLC </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="Trust" id="stts-trust"> <label for="stts-trust"> Trust </label>
+                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="trust" id="stts-trust"> <label for="stts-trust"> Trust </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="Partnership" id="stts-prtnr"> <label for="stts-prtnr"> Partnership </label>
+                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="partnership" id="stts-prtnr"> <label for="stts-prtnr"> Partnership </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="Foundation" id="stts-fndtion"> <label for="stts-fndtion"> Foundation </label>
+                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="foundation" id="stts-fndtion"> <label for="stts-fndtion"> Foundation </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input section-b-1-status" name="status" type="radio" value="other" id="stts-other"> <label for="stts-other"> Other </label>
                 </div>
                 <div class="form-group mt-2">
-                    <input type="text" class="form-control section-b-1-status-other" placeholder="Other (specify)">
+                    <input type="text" class="form-control section-b-1-status-other d-none" placeholder="Other (specify)">
                 </div>
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label">Nationality/ Country of Registration:</label>
+            <label class="col-sm-3 col-form-label">Nationality/ Country of Registration: @requiredField </label>
             <div class="col-sm-5">
                 <input type="text" class="form-control section-b-1-nationality">
             </div>
-            <label class="col-sm-1 col-form-label">Gender:</label>
+            <label class="col-sm-1 col-form-label">Gender: @requiredField </label>
             <div class="col-sm-3">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-gender" type="radio" name="gender" value="Male"> Male
+                    <input class="form-check-input section-b-1-gender" id="stts-male" type="radio" name="gender" value="male" checked> Male
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input section-b-1-gender" type="radio" name="gender" value="Female"> Female
+                    <input class="form-check-input section-b-1-gender" id="stts-female" type="radio" name="gender" value="female"> Female
                 </div>
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label">Country of Legal Residence/ Domicile:</label>
+            <label class="col-sm-3 col-form-label">Country of Legal Residence/ Domicile: @requiredField </label>
             <div class="col-sm-9">
                 <input type="text" class="form-control section-b-1-legal-residence">
             </div>
         </div>
         <div class="row mb-3 section-b-1-country-tax-residence-row">
-            <label class="col-sm-3 col-form-label">Countries of Tax Residence:</label>
+            <label class="col-sm-3 col-form-label">Countries of Tax Residence: @requiredField </label>
             <div class="col-sm-7">
                 <input type="text" class="form-control section-b-1-country-tax-residence">
             </div>
@@ -128,27 +131,27 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label">Passport Number:</label>
+            <label class="col-sm-3 col-form-label">Passport Number: @requiredField </label>
             <div class="col-sm-3">
                 <input type="text" class="form-control section-b-1-passport">
             </div>
-            <label class="col-sm-3 col-form-label">Country of Issuance:</label>
+            <label class="col-sm-3 col-form-label">Country of Issuance: @requiredField </label>
             <div class="col-sm-3">
                 <input type="text" class="form-control section-b-1-passport-issue-country">
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label">Tax Identification Number (TIN):</label>
+            <label class="col-sm-3 col-form-label">Tax Identification Number (TIN): @requiredField </label>
             <div class="col-sm-3">
                 <input type="text" class="form-control section-b-1-tin">
             </div>
-            <label class="col-sm-3 col-form-label">Legal Entity Identifier (LEI) or Other:</label>
+            <label class="col-sm-3 col-form-label">Legal Entity Identifier (LEI) or Other: @requiredField </label>
             <div class="col-sm-3">
                 <input type="text" class="form-control section-b-1-lei">
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label">E-Mail:</label>
+            <label class="col-sm-3 col-form-label">E-Mail: @requiredField </label>
             <div class="col-sm-9">
                 <input type="email" class="form-control section-b-1-email">
             </div>

@@ -44,14 +44,6 @@ class PolicyService {
 
     public function submit($request) : mixed
     {
-        // $validator = Validator::make($request->all(), [
-        //     'policy_id' => 'required'            
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return ['errors' => $validator->errors()];
-        // }
-
         if ($request->filled('policy')) {
             $policy = Policy::find($request->policy);
             $savingType = $request->save != 'draft' ? 'save' : 'draft';
@@ -288,7 +280,7 @@ class PolicyService {
                                 'in_draft' => $savingType == 'draft' ? 1 : 0
                             ]);
                         }
-                    }                    
+                    }
 
                     if ($savingType == 'draft') {
                         $policy->silent_save = 0;

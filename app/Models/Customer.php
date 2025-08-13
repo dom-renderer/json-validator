@@ -23,6 +23,10 @@ class Customer extends Model
     protected $casts = [
         'dob' => 'date',
     ];
+    public function getDobAttribute($value)
+    {
+        return \Illuminate\Support\Carbon::parse($value)->format('Y-m-d');
+    }
 
     public function country()
     {
