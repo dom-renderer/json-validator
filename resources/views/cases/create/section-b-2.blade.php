@@ -1,122 +1,123 @@
-<form id="form-section-a-2">
+<form id="form-section-b-2">
 
     <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">Controlling Person Full Legal Name @requiredField </label>
-        <div class="col-sm-8">
-            <input type="text" name="full_legal_name" class="form-control" required>
+        <label class="col-sm-3 col-form-label">Controlling Person Full Legal Name: @requiredField </label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control secction-b-2-policyholder-name" id="name" name="name" value="{{  isset($polhol['id']) ? ($polhol['name']) : ''  }}" required>
         </div>
     </div>
-
     <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">Place Of Birth @requiredField </label>
-        <div class="col-sm-4">
-            <input type="text" name="place_of_birth" class="form-control" required>
+        <label class="col-sm-3 col-form-label">Place Of Birth: @requiredField </label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control secction-b-2-place-birth" name="place_of_birth" id="place_of_birth" value="{{ isset($polhol['id']) ? ($polhol['place_of_birth']) : '' }}" required>
         </div>
-        <label class="col-sm-2 col-form-label">Date Of Birth @requiredField </label>
+        <label class="col-sm-2 col-form-label">Date Of Birth: @requiredField </label>
         <div class="col-sm-2">
-            <input type="date" name="dob" class="form-control" required>
+            <input type="text" class="form-control secction-b-2-date-birth" readonly  name="dob" id="dob-b-2" value="{{ isset($polhol['id']) ? ($polhol['dob']) : '' }}" required>
         </div>
     </div>
-
     <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">Residential Address @requiredField </label>
-        <div class="col-sm-8">
-            <input type="text" name="residential_address" class="form-control" required>
+        <label class="col-sm-3 col-form-label">Residential Address: @requiredField </label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control secction-b-2-address" name="address_line_1" id="address_line_1" value="{{ isset($polhol['id']) ? ($polhol['address_line_1']) : '' }}" required>
         </div>
     </div>
-
     <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">Country @requiredField </label>
-        <div class="col-sm-4">
-            <select id="section-b-2-country_id" name="country_id" class="form-select" required></select>
+        <label class="col-sm-3 col-form-label">Country: @requiredField </label>
+        <div class="col-sm-9">
+            <input type="text" name="country" id="country" class="form-control secction-b-2-country" value="{{ isset($polhol['id']) ? ($polhol['country']) : '' }}" required>
         </div>
-        <label class="col-sm-1 col-form-label">State @requiredField </label>
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-1 col-form-label">City: @requiredField </label>
+        <div class="col-sm-5">
+            <input type="text" name="city" id="city" class="form-control secction-b-2-city" value="{{ isset($polhol['id']) ? ($polhol['city']) : '' }}" required>
+        </div>
+        <label class="col-sm-3 col-form-label">Postcode/ ZIP: @requiredField </label>
         <div class="col-sm-3">
-            <select id="section-b-2-state_id" name="state_id" class="form-select" required></select>
+            <input type="text" class="form-control secction-b-2-zip" name="zipcode" id="zipcode" value="{{ isset($polhol['id']) ? ($polhol['zipcode']) : '' }}" required>
         </div>
     </div>
-
     <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">City @requiredField </label>
-        <div class="col-sm-4">
-            <select id="section-b-2-city_id" name="city_id" class="form-select" required></select>
-        </div>
-        <label class="col-sm-1 col-form-label">Postcode/ZIP @requiredField </label>
-        <div class="col-sm-3">
-            <input type="text" name="zip" class="form-control" required>
+        <label class="col-sm-3 col-form-label">Status: @requiredField </label>
+        <div class="col-sm-9">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input secction-b-2-status" name="status" type="radio" value="single" id="stts-single-b-2" checked> <label for="stts-single-b-2"> Single </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input secction-b-2-status" name="status" type="radio" value="married" id="stts-married-b-2" @if(isset($polhol['id']) && $polhol['status'] == 'married') checked @endif> <label for="stts-married-b-2"> Married </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input secction-b-2-status" name="status" type="radio" value="divorced" id="stts-divorced-b-2" @if(isset($polhol['id']) && $polhol['status'] == 'divorced') checked @endif> <label for="stts-divorced-b-2"> Divorced </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input secction-b-2-status" name="status" type="radio" value="separated" id="stts-separated-b-2"> <label for="stts-separated-b-2" @if(isset($polhol['id']) && $polhol['status'] == 'separated') checked @endif> Separated </label>
+            </div>
         </div>
     </div>
-
     <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">Status @requiredField </label>
-        <div class="col-sm-8">
-            <div class="form-check form-check-inline"><input type="radio" name="status" value="Single" class="form-check-input" id="sb2single" checked><label for="sb2single" class="form-check-label">Single</label></div>
-            <div class="form-check form-check-inline"><input type="radio" name="status" value="Married" class="form-check-input" id="sb2married"><label for="sb2married" class="form-check-label">Married</label></div>
-            <div class="form-check form-check-inline"><input type="radio" name="status" value="Divorced" class="form-check-input" id="sb2divorced"><label for="sb2divorced" class="form-check-label">Divorced</label></div>
-            <div class="form-check form-check-inline"><input type="radio" name="status" value="Separated" class="form-check-input" id="sb2separated"><label for="sb2separated" class="form-check-label">Separated</label></div>
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">Smoker Status @requiredField </label>
-        <div class="col-sm-8">
-            <div class="form-check form-check-inline"><input type="radio" name="smoker_status" value="Smoker" class="form-check-input" id="sba2smoker" checked><label for="sba2smoker" class="form-check-label">Smoker</label></div>
-            <div class="form-check form-check-inline"><input type="radio" name="smoker_status" value="Non-Smoker" class="form-check-input" id="sba2nonesmoker"><label for="sba2nonesmoker" class="form-check-label">Non-Smoker</label></div>
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">Nationality @requiredField </label>
-        <div class="col-sm-4">
-            <input type="text" name="nationality" class="form-control" required>
-        </div>
-        <label class="col-sm-2 col-form-label">Gender @requiredField </label>
-        <div class="col-sm-2">
-            <div class="form-check form-check-inline"><input type="radio" name="gender" value="Male" class="form-check-input" checked id="sba2male"><label for="sba2male" class="form-check-label">Male</label></div>
-            <div class="form-check form-check-inline"><input type="radio" name="gender" value="Female" class="form-check-input" id="sba2female"><label for="sba2female" class="form-check-label">Female</label></div>
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">Country of Legal Residence @requiredField </label>
-        <div class="col-sm-8">
-            <select id="section-b-2-country_legal_residence" name="country_legal_residence" class="form-select" required></select>
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">Countries of Tax Residence @requiredField </label>
-        <div class="col-sm-8" id="section-b-2-tax-residence-wrapper">
-            <div class="input-group mb-2 section-b-2-tax-residence-row">
-                <select name="countries_tax_residence[]" class="form-select section-b-2-countries-tax" required></select>
-                <button type="button" class="btn btn-success section-b-2-add-tax">+</button>
-                <button type="button" class="btn btn-danger section-b-2-remove-tax">-</button>
+        <label class="col-sm-3 col-form-label">Smoker Status: @requiredField </label>
+        <div class="col-sm-9">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input secction-b-2-smoker-status" name="smoker_status" type="radio" value="smoker" id="stts-smoker" checked> <label for="stts-smoker"> Smoker </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input secction-b-2-smoker-status" name="smoker_status" type="radio" value="non-smoker" id="stts-non-smoker" @if(isset($polhol['id']) && $polhol['smoker_status'] == 'non-smoker') checked @endif> <label for="stts-non-smoker"> Non-Smoker </label>
             </div>
         </div>
     </div>
 
     <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">Passport Number </label>
-        <div class="col-sm-4">
-            <input type="text" name="passport_number" class="form-control" required>
+        <label class="col-sm-3 col-form-label">Nationality: @requiredField </label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control secction-b-2-nationality" name="national_country_of_registration" value="{{ isset($polhol['id']) ? ($polhol['national_country_of_registration']) : '' }}" required>
         </div>
-        <label class="col-sm-2 col-form-label">Country of Issuance </label>
-        <div class="col-sm-2">
-            <select id="section-b-2-country_issuance" name="country_issuance" class="form-select" required></select>
+        <label class="col-sm-1 col-form-label">Gender: @requiredField </label>
+        <div class="col-sm-3">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input secction-b-2-gender" id="stts-male" type="radio" name="gender" value="male" checked> Male
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input secction-b-2-gender" id="stts-female" type="radio" name="gender" value="female" @if(isset($polhol['id']) && $polhol['gender'] == 'female') checked @endif> Female
+            </div>
         </div>
     </div>
-
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Country of Legal Residence: @requiredField </label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control secction-b-2-legal-residence" name="country_of_legal_residence" value="{{ isset($polhol['id']) ? ($polhol['country_of_legal_residence']) : '' }}" required>
+        </div>
+    </div>
+    <div class="row mb-3 secction-b-2-country-tax-residence-row">
+        <label class="col-sm-3 col-form-label">Countries of Tax Residence: @requiredField </label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control secction-b-2-country-tax-residence" name="all_countries[]" required>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-success secction-b-2-add">+</button>
+            <button type="button" class="btn btn-danger secction-b-2-remove">-</button>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Passport Number: @requiredField </label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control secction-b-2-passport" value="{{ isset($polhol['id']) ? ($polhol['passport_number']) : '' }}" name="passport_number" required>
+        </div>
+        <label class="col-sm-3 col-form-label">Country of Issuance: @requiredField </label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control secction-b-2-passport-issue-country" name="country_of_issuance" value="{{ isset($polhol['id']) ? ($polhol['country_of_issuance']) : '' }}" required>
+        </div>
+    </div>
     <div class="row mb-3">
         <label class="col-sm-4 col-form-label">Relationship to Policyholder @requiredField </label>
         <div class="col-sm-8">
-            <input type="text" name="relationship" class="form-control" required>
+            <input type="text" name="relationship_to_policyholder" class="form-control" value="{{ isset($polhol['id']) ? ($polhol['relationship_to_policyholder']) : '' }}" required>
         </div>
     </div>
-
     <div class="row mb-3">
-        <label class="col-sm-4 col-form-label">E-Mail @requiredField </label>
-        <div class="col-sm-8">
-            <input type="email" name="email" class="form-control" required>
+        <label class="col-sm-3 col-form-label">E-Mail: @requiredField </label>
+        <div class="col-sm-9">
+            <input type="email" class="form-control secction-b-2-email" name="email" value="{{ isset($polhol['id']) ? ($polhol['email']) : '' }}" required>
         </div>
     </div>
 

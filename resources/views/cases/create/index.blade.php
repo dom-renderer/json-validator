@@ -155,13 +155,29 @@
             </div>
             <div class="case-section d-none" id="section-b-1">
                 @php
-                    $polhol = \App\Models\PolicyHolder::with('holder')->where('policy_id', $policy->id)->first()->toArray() ?? [];
+                    $polhol = \App\Models\PolicyHolder::with('holder')->where('policy_id', $policy->id)->first();
+
+                    if ($polhol) {
+                        $polhol = $polhol->toArray();
+                    } else {
+                        $polhol = [];
+                    }
                 @endphp
 
                 @include('cases.create.section-b-1', ['polhol', 'polhol'])
             </div>
             <div class="case-section d-none" id="section-b-2">
-                @include('cases.create.section-b-2')
+                @php
+                    $polhol = \App\Models\PolicyController::where('policy_id', $policy->id)->first();
+
+                    if ($polhol) {
+                        $polhol = $polhol->toArray();
+                    } else {
+                        $polhol = [];
+                    }
+                @endphp
+
+                @include('cases.create.section-b-2', ['polhol', 'polhol'])
             </div>
             <div class="case-section d-none" id="section-c-1">
                 @include('cases.create.section-c-1')

@@ -507,6 +507,14 @@
             yearRange: '-100:+0'
         });
 
+        $('.secction-b-2-date-birth').datepicker({
+            dateFormat: 'yy-mm-dd',
+            // maxDate: '-1d',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '-100:+0'
+        });
+
         $('#policy_holder_id').select2({
             placeholder: 'Select Policy Holder',
             allowClear: true,

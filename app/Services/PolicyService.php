@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Customer;
 use App\Models\PolicyCommunication;
+use App\Models\PolicyController;
 use App\Models\PolicyDocument;
 use App\Models\PolicyEconomicProfile;
 use App\Models\PolicyFeeSummaryExternal;
@@ -380,6 +381,52 @@ class PolicyService {
                     $response['next_section'] = self::$sections[3];
                     return $response;
                 case self::$sections[3]:
+
+                    if (isset($request['data']['name'])) {
+                        if (PolicyController::where('policy_id', $policy->id)->exists()) {
+                            PolicyController::where('policy_id', $policy->id)->update([
+                                'updated_by' => $currentLoggedInUser,
+                                'name' => $request['data']['name'] ?? '',
+                                'place_of_birth' => $request['data']['place_of_birth'] ?? '',
+                                'dob' => date('Y-m-d', strtotime($request['data']['dob'] ?? '')),
+                                'address_line_1' => $request['data']['address_line_1'] ?? '',
+                                'zipcode' => $request['data']['zipcode'] ?? '',
+                                'country' => $request['data']['country'] ?? '',
+                                'city' => $request['data']['city'] ?? '',
+                                'status' => $request['data']['status'] ?? 'single',
+                                'smoker_status' => $request['data']['status'] ?? 'non-smoker',
+                                'national_country_of_registration' => $request['data']['national_country_of_registration'] ?? '',
+                                'gender' => $request['data']['gender'] ?? 'male',
+                                'country_of_legal_residence' => $request['data']['country_of_legal_residence'] ?? '',
+                                'passport_number' => $request['data']['passport_number'] ?? '',
+                                'country_of_issuance' => $request['data']['country_of_issuance'] ?? '',
+                                'email' => $request['data']['email'] ?? '',
+                                'relationship_to_policyholder' => $request['data']['relationship_to_policyholder'] ?? ''
+                            ]);
+                        } else {
+                            PolicyController::create([
+                                'policy_id' => $policy->id,
+                                'added_by' => $currentLoggedInUser,
+                                'name' => $request['data']['name'] ?? '',
+                                'place_of_birth' => $request['data']['place_of_birth'] ?? '',
+                                'dob' => date('Y-m-d', strtotime($request['data']['dob'] ?? '')),
+                                'address_line_1' => $request['data']['address_line_1'] ?? '',
+                                'zipcode' => $request['data']['zipcode'] ?? '',
+                                'country' => $request['data']['country'] ?? '',
+                                'city' => $request['data']['city'] ?? '',
+                                'status' => $request['data']['status'] ?? 'single',
+                                'smoker_status' => $request['data']['status'] ?? 'non-smoker',
+                                'national_country_of_registration' => $request['data']['national_country_of_registration'] ?? '',
+                                'gender' => $request['data']['gender'] ?? 'male',
+                                'country_of_legal_residence' => $request['data']['country_of_legal_residence'] ?? '',
+                                'passport_number' => $request['data']['passport_number'] ?? '',
+                                'country_of_issuance' => $request['data']['country_of_issuance'] ?? '',
+                                'email' => $request['data']['email'] ?? '',
+                                'relationship_to_policyholder' => $request['data']['relationship_to_policyholder'] ?? ''
+                            ]);
+                        }
+                    }
+
                     $response['next_section'] = self::$sections[4];
                     return $response;
                 case self::$sections[4]:
