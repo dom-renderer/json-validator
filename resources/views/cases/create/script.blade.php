@@ -232,6 +232,30 @@
     /**
      * Handle form submission for section A-2
      **/
+
+
+    /**
+     * Handle form submission for section B-1
+     **/
+
+        $('#form-section-b-1').validate({
+            submitHandler: function(form, event) {
+                event.preventDefault();
+
+                let formData = $(form).serializeArray().reduce((acc, item) => {
+                    acc[item.name] = item.value;
+                    return acc;
+                }, {});
+                
+                let actionType = event.originalEvent.submitter;
+                
+                submission('section-b-1', formData, actionType);
+            }
+        });        
+
+    /**
+     * Handle form submission for section B-1
+     **/     
     
 
 </script>

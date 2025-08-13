@@ -181,7 +181,7 @@ class CaseController extends Controller
         
         $request->merge(['save' => 'draft']);
         
-        $submission = $service->submit($request);
+        $submission = $service->submit($request, true);
 
         if (isset($submission['errors'])) {
             return response()->json($submission, 422);

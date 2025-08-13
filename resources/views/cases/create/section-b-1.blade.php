@@ -3,7 +3,7 @@
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Select Policy Holder: @requiredField </label>
             <div class="col-sm-9">
-                <select name="policy_holder_id" id="policy_holder_id"></select>
+                <select name="policy_holder_id" id="policy_holder_id" required></select>
             </div>
         </div>
         <div class="row mb-3">
@@ -102,7 +102,7 @@
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Nationality/ Country of Registration: @requiredField </label>
             <div class="col-sm-5">
-                <input type="text" class="form-control section-b-1-nationality">
+                <input type="text" class="form-control section-b-1-nationality" name="national_country_of_registration">
             </div>
             <label class="col-sm-1 col-form-label">Gender: @requiredField </label>
             <div class="col-sm-3">
@@ -117,13 +117,13 @@
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Country of Legal Residence/ Domicile: @requiredField </label>
             <div class="col-sm-9">
-                <input type="text" class="form-control section-b-1-legal-residence">
+                <input type="text" class="form-control section-b-1-legal-residence" name="country_of_legal_residence" required>
             </div>
         </div>
         <div class="row mb-3 section-b-1-country-tax-residence-row">
             <label class="col-sm-3 col-form-label">Countries of Tax Residence: @requiredField </label>
             <div class="col-sm-7">
-                <input type="text" class="form-control section-b-1-country-tax-residence">
+                <input type="text" class="form-control section-b-1-country-tax-residence" name="all_countries[]" required>
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-success section-b-1-add">+</button>
@@ -133,27 +133,27 @@
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Passport Number: @requiredField </label>
             <div class="col-sm-3">
-                <input type="text" class="form-control section-b-1-passport">
+                <input type="text" class="form-control section-b-1-passport" name="passport_number" required>
             </div>
             <label class="col-sm-3 col-form-label">Country of Issuance: @requiredField </label>
             <div class="col-sm-3">
-                <input type="text" class="form-control section-b-1-passport-issue-country">
+                <input type="text" class="form-control section-b-1-passport-issue-country" name="country_of_issuance" required>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Tax Identification Number (TIN): @requiredField </label>
             <div class="col-sm-3">
-                <input type="text" class="form-control section-b-1-tin">
+                <input type="text" class="form-control section-b-1-tin" name="tin" required>
             </div>
             <label class="col-sm-3 col-form-label">Legal Entity Identifier (LEI) or Other: @requiredField </label>
             <div class="col-sm-3">
-                <input type="text" class="form-control section-b-1-lei">
+                <input type="text" class="form-control section-b-1-lei" name="lei" required>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">E-Mail: @requiredField </label>
             <div class="col-sm-9">
-                <input type="email" class="form-control section-b-1-email">
+                <input type="email" class="form-control section-b-1-email" name="email" required>
             </div>
         </div>
 

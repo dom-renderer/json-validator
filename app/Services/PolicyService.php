@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\Customer;
 use App\Models\PolicyCommunication;
 use App\Models\PolicyDocument;
 use App\Models\PolicyEconomicProfile;
 use App\Models\PolicyFeeSummaryExternal;
 use App\Models\PolicyFeeSummaryInternalFee;
+use App\Models\PolicyHolder;
 use App\Models\PolicyInvestmentNote;
 use App\Models\PolicyPremium;
 use Illuminate\Support\Facades\Validator;
@@ -42,7 +44,7 @@ class PolicyService {
         'section-g-2'
     ];
 
-    public function submit($request) : mixed
+    public function submit($request, $isAutoSave = false) : mixed
     {
         if ($request->filled('policy')) {
             $policy = Policy::find($request->policy);
@@ -293,6 +295,88 @@ class PolicyService {
                     $response['next_section'] = self::$sections[2];
                     return $response;
                 case self::$sections[2]:
+
+                    if ($request->policy_holder_id != null) {
+                        if (is_numeric($request->policy_holder_id) && $request->policy_holder_id > 0) {
+
+                            $customer = Customer::find($request->policy_holder_id);
+
+                            if ($customer) {
+
+                                $customer->type = $request['data']['type'] ?? 'entity';
+                                $customer->name = $request['data']['name'] ?? '';
+                                $customer->controlling_person_name = $request['data']['controlling_person_name'] ?? '';
+                                $customer->email = $request['data']['email'] ?? '';
+                                $customer->place_of_birth = $request['data']['place_of_birth'] ?? '';
+                                $customer->dob = date('Y-m-d', strtotime($request['data']['dob'] ?? ''));
+                                $customer->country = $request['data']['country'] ?? '';
+                                $customer->city = $request['data']['city'] ?? '';
+                                $customer->zipcode = $request['data']['zipcode'] ?? '';
+                                $customer->address_line_1 = $request['data']['address_line_1'] ?? '';
+                                $customer->status = $request['data']['status'] ?? 'corporation';
+                                $customer->national_country_of_registration = $request['data']['national_country_of_registration'] ?? '';
+                                $customer->gender = $request['data']['gender'] ?? 'male';
+                                $customer->country_of_legal_residence = $request['data']['country_of_legal_residence'] ?? '';
+                                $customer->passport_number = $request['data']['passport_number'] ?? '';
+                                $customer->country_of_issuance = $request['data']['country_of_issuance'] ?? '';
+                                $customer->tin = $request['data']['tin'] ?? '';
+                                $customer->lei = $request['data']['lei'] ?? '';
+                                $customer->email = $request['data']['email'] ?? '';
+                                $customer->save();
+
+                                if (PolicyHolder::where('policy_id', $policy->id)->exists()) {
+                                    PolicyHolder::where('policy_id', $policy->id)->update([
+                                        'holder_id' => $customer->id,
+                                        'updated_by' => $currentLoggedInUser
+                                    ]);
+                                } else {
+                                    PolicyHolder::create([
+                                        'policy_id' => $policy->id,
+                                        'holder_id' => $customer->id,
+                                        'added_by' => $currentLoggedInUser
+                                    ]);
+                                }
+                            }
+                            
+                        } else if ($request->policy_holder_id == 'ADD_NEW_USER' && $isAutoSave) {
+
+                                $customer  = new Customer();
+                                $customer->type = $request['data']['type'] ?? 'entity';
+                                $customer->name = $request['data']['name'] ?? '';
+                                $customer->controlling_person_name = $request['data']['controlling_person_name'] ?? '';
+                                $customer->email = $request['data']['email'] ?? '';
+                                $customer->place_of_birth = $request['data']['place_of_birth'] ?? '';
+                                $customer->dob = date('Y-m-d', strtotime($request['data']['dob'] ?? ''));
+                                $customer->country = $request['data']['country'] ?? '';
+                                $customer->city = $request['data']['city'] ?? '';
+                                $customer->zipcode = $request['data']['zipcode'] ?? '';
+                                $customer->address_line_1 = $request['data']['address_line_1'] ?? '';
+                                $customer->status = $request['data']['status'] ?? 'corporation';
+                                $customer->national_country_of_registration = $request['data']['national_country_of_registration'] ?? '';
+                                $customer->gender = $request['data']['gender'] ?? 'male';
+                                $customer->country_of_legal_residence = $request['data']['country_of_legal_residence'] ?? '';
+                                $customer->passport_number = $request['data']['passport_number'] ?? '';
+                                $customer->country_of_issuance = $request['data']['country_of_issuance'] ?? '';
+                                $customer->tin = $request['data']['tin'] ?? '';
+                                $customer->lei = $request['data']['lei'] ?? '';
+                                $customer->email = $request['data']['email'] ?? '';
+                                $customer->save();
+
+                                if (PolicyHolder::where('policy_id', $policy->id)->exists()) {
+                                    PolicyHolder::where('policy_id', $policy->id)->update([
+                                        'holder_id' => $customer->id,
+                                        'updated_by' => $currentLoggedInUser
+                                    ]);
+                                } else {
+                                    PolicyHolder::create([
+                                        'policy_id' => $policy->id,
+                                        'holder_id' => $customer->id,
+                                        'added_by' => $currentLoggedInUser
+                                    ]);
+                                }                                                        
+                        }
+                    }
+
                     $response['next_section'] = self::$sections[3];
                     return $response;
                 case self::$sections[3]:
